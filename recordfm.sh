@@ -16,3 +16,7 @@ sleep $timeout
 
 kill $rtl_pid
 kill $gst_pid
+
+sleep 600
+
+python sat.py $sat
