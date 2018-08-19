@@ -4,18 +4,42 @@
 import predict
 from datetime import datetime
 from subprocess import call
+import subprocess
 import sys
+import os
+import urllib2
+from urllib2 import HTTPError
+
 
 #update tle from internet
-call(["sh", "updatesats.sh"])
+url = 'https://www.amsat.org/tle/current/nasa.all'
+try:
+        filedata = urllib2.urlopen(url)  
+except HTTPError, e:
+        print ("error, no internet")
+else:
+        datatowrite = filedata.read()
+        with open('nasa.all', 'wb') as f:  
+                f.write(datatowrite)
+
 
 sat = sys.argv[1]
-lat = sys.argv[2]
-longitude = sys.argv[3]
-alt = sys.argv[4]
+lat = 0
+longitude = 0
+alt = 0
 matching=0
 tle1=""
 tle2=""
+with open("config.cfg") as myFile:
+    for num, line in enumerate(myFile, 1):
+        if "lat" in line:
+                lat=line.split(":")[1]
+        elif "long" in line:
+                longitude=line.split(":")[1]
+        elif "alt" in line:
+                alt=line.split(":")[1]
+
+
 with open("nasa.all") as myFile:
     for num, line in enumerate(myFile, 1):
         if sat in line:
@@ -64,7 +88,9 @@ for i in range(1,2):
         # Add an extra minute to recording to ensure all conversation will be captured
         duration=int(tmpduration[0])+60
         
-        commandline="echo './recordfm.sh %s %s %s' | at %s %s" %(freq,duration,sat,day,hour)
+        commandline="echo './recordfm.sh %s %s %s' | at %s %s" %(freq,duration,sat,hour,day)
         print commandline
+
+        #os.system("bash -c %s"%commandline)
         #print(datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
-	print("%f\t%f\t%f" % (transit.start, transit.duration(), transit.peak()['elevation']))
+	#print("%f\t%f\t%f" % (transit.start, transit.duration(), transit.peak()['elevation']))
