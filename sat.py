@@ -9,6 +9,7 @@ import sys
 import os
 import urllib2
 from urllib2 import HTTPError
+from urllib2 import URLError
 
 
 #update tle from internet
@@ -16,6 +17,8 @@ url = 'https://www.amsat.org/tle/current/nasa.all'
 try:
         filedata = urllib2.urlopen(url)  
 except HTTPError, e:
+        print ("error, no internet")
+except URLError, e:
         print ("error, no internet")
 else:
         datatowrite = filedata.read()

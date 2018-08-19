@@ -1,9 +1,9 @@
 #!/bin/sh
 #input frecuency in MHz
 export TZ=Etc/Zulu
-timeout=10
+timeout=$2
 fecha=`date +%Y%m%d_%H%M%S`
-freq=$2
+freq=$1
 sat=$3
 squelch=0
 rtl_fm -l $squelch -f "$freq"M -M fm -g 50 -s 12.5k | gst-launch-1.0 fdsrc do-timestamp=true ! audio/x-raw, format=S16LE, channels=1, layout=interleaved, rate=12500 ! audioresample ! queue ! tee name=late ! queue ! adder name=adder ! lamemp3enc ! filesink location="$sat""$fecha"_"$freq"MHZ.mp3 audiotestsrc wave=9 ! volume mute=true ! queue ! adder. & 
