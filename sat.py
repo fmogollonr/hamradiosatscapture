@@ -60,7 +60,11 @@ for i in range(1,2):
         #print(datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
         day=datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
         hour=datetime.fromtimestamp(ts).strftime('%H:%M')
-        commandline="echo './recordfm.sh %s %s' | at %s %s" %(freq,sat,day,hour)
+        tmpduration=str(transit.duration()).split(".")
+        # Add an extra minute to recording to ensure all conversation will be captured
+        duration=int(tmpduration[0])+60
+        
+        commandline="echo './recordfm.sh %s %s %s' | at %s %s" %(freq,duration,sat,day,hour)
         print commandline
         #print(datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
-	#print("%f\t%f\t%f" % (transit.start, transit.duration(), transit.peak()['elevation']))
+	print("%f\t%f\t%f" % (transit.start, transit.duration(), transit.peak()['elevation']))
