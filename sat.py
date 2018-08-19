@@ -1,9 +1,18 @@
+#python called similar to
+#python sat.py ISS 43.32 -1.98 7
+#python sat.py <satname> <latitude> <longitude> <altitude>
 import predict
 from datetime import datetime
 from subprocess import call
+import sys
+
+#update tle from internet
 call(["sh", "updatesats.sh"])
 
-sat = 'AO-07'
+sat = sys.argv[1]
+lat = sys.argv[2]
+longitude = sys.argv[3]
+alt = sys.argv[4]
 matching=0
 tle1=""
 tle2=""
@@ -22,11 +31,8 @@ with open("nasa.all") as myFile:
 
 #Two elements data from any satellite or object
 tle = "%s\n%s%s" %(sat,tle1,tle2)
-#1 07530U 74089B   18229.47395663 -.00000029  00000-0  10090-3 0  9993
-#2 07530 101.6924 195.8893 0011742 215.6162 257.6255 12.53633834  2272"""
 #Latitude longitude in degress
-
-qth = (43.32, -1.98, 7)  # lat (N), long (W), alt (meters)
+qth = (lat, longitude, alt)  # lat (N), long (W), alt (meters)
 p = predict.transits(tle, qth)
 for i in range(1,10):
 	transit = p.next()
