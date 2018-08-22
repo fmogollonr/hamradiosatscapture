@@ -78,7 +78,8 @@ elif sat == "ISS":
 #Two elements data from any satellite or object
 tle = "%s\n%s%s" %(sat,tle1,tle2)
 #Latitude longitude in degress
-qth = (lat, longitude, alt)  # lat (N), long (W), alt (meters)
+print "Buscando para %s %s %s" %(lat.rstrip(),longitude.rstrip(),alt.rstrip())
+qth = (lat.rstrip(), longitude.rstrip(), alt.rstrip())  # lat (N), long (W), alt (meters)
 p = predict.transits(tle, qth)
 for i in range(1,2):
 	transit = p.next()
@@ -87,6 +88,7 @@ for i in range(1,2):
         #print(datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
         day=datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
         hour=datetime.fromtimestamp(ts).strftime('%H:%M')
+        
         tmpduration=str(transit.duration()).split(".")
         # Add an extra minute to recording to ensure all conversation will be captured
         duration=int(tmpduration[0])+60
