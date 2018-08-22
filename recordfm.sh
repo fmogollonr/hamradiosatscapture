@@ -22,6 +22,5 @@ sleep $timeout
 sleep 10
 kill $rtl_pid
 
-sleep 60
-
-python sat.py $sat
+sleep 10
+echo "python sat.py $sat" | at now +1 minute

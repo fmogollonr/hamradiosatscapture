@@ -93,9 +93,10 @@ for i in range(1,2):
         # Add an extra minute to recording to ensure all conversation will be captured
         duration=int(tmpduration[0])+60
         
-        commandline="echo './recordfm.sh %s %s %s' | at %s %s" %(freq,duration,sat,hour,day)
-        print commandline
+        commandline="/bin/echo './recordfm.sh %s %s %s' | at %s %s" %(freq,duration,sat,hour,day)
 
-        os.system("bash -c %s"%commandline)
+        print commandline
+        subprocess.call(commandline, shell=True) 
+        #os.system("/bin/bash -c %s"%commandline)
         #print(datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
 	#print("%f\t%f\t%f" % (transit.start, transit.duration(), transit.peak()['elevation']))
