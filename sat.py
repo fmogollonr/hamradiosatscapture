@@ -84,6 +84,8 @@ p = predict.transits(tle, qth)
 for i in range(1,2):
 	transit = p.next()
         ts=int(transit.start)
+        #Start two minutes before
+        ts=ts-120
         #print(datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
         #print(datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
         day=datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
@@ -91,7 +93,7 @@ for i in range(1,2):
         
         tmpduration=str(transit.duration()).split(".")
         # Add an extra minute to recording to ensure all conversation will be captured
-        duration=int(tmpduration[0])+60
+        duration=int(tmpduration[0])+180
         
         commandline="/bin/echo './recordfm.sh %s %s %s' | at %s %s" %(freq,duration,sat,hour,day)
 
